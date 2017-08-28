@@ -7,7 +7,5 @@ g++ -I"${v8}/include"\
 	${v8}/lib/libv8_{base,libbase,snapshot,libplatform,libsampler}.a\
     ${icu}/lib/libicu{uc,i18n}.so\
 	-Wl,--end-group\
-    -lrt\
-    -ldl\
     -pthread\
     -std=c++0x
