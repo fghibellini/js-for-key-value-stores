@@ -5,3 +5,6 @@ bin/run : ./src/main.cpp
 
 run : bin/run
 	./bin/run
+
+clean :
+	-rm -rf bin
