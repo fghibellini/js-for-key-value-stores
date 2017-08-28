@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "include/libplatform/libplatform.h"
-#include "include/v8.h"
+#include "libplatform/libplatform.h"
+#include "v8.h"
 
 using namespace v8;
 
@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
     Isolate::CreateParams create_params;
     create_params.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
     Isolate* isolate = Isolate::New(create_params);
+
     {
         Isolate::Scope isolate_scope(isolate);
         // Create a stack-allocated handle scope.
@@ -28,12 +29,15 @@ int main(int argc, char* argv[]) {
         Local<Context> context = Context::New(isolate);
         // Enter the context for compiling and running the hello world script.
         Context::Scope context_scope(context);
+
         // Create a string containing the JavaScript source code.
-        Local<String> source =
-            String::NewFromUtf8(isolate, "'Hello' + (function(x) { return 2 * x + 1; })(7) + ', World!'",
-                                NewStringType::kNormal).ToLocalChecked();
+        const char *src = R"(
+            'Fifteen: ' + (function(x) { return 2 * x + 1; })(7)
+        )";
+        Local<String> source = String::NewFromUtf8(isolate, src, NewStringType::kNormal).ToLocalChecked();
         // Compile the source code.
         Local<Script> script = Script::Compile(context, source).ToLocalChecked();
+
         // Run the script to get the result.
         Local<Value> result = script->Run(context).ToLocalChecked();
         // Convert the result to an UTF8 string and print it.
