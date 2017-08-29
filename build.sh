@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 g++ -I"${v8}/include"\
+    -O0 \
     src/main.cpp\
     -o bin/run\
     -Wl,--start-group \
